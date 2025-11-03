@@ -1,0 +1,87 @@
+using System;
+using System.Globalization;
+
+class Program
+{
+    static void Main()
+    {
+        CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+        
+        string[] dias = { "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO" };
+        
+        while (true)
+        {
+            string input = Console.ReadLine();
+            double primerVenta = double.Parse(input);
+            
+
+            if (primerVenta == -1)
+                break;
+
+            double[] ventas = new double[6];
+            ventas[0] = primerVenta;
+            
+            for (int i = 1; i < 6; i++)
+            {
+                ventas[i] = double.Parse(Console.ReadLine());
+            }
+            
+            // Calcular la media semanal
+            double suma = 0;
+            for (int i = 0; i < 6; i++)
+            {
+                suma += ventas[i];
+            }
+            double media = suma / 6;
+            
+            double maxVenta = ventas[0];
+            for (int i = 1; i < 6; i++)
+            {
+                if (ventas[i] > maxVenta)
+                    maxVenta = ventas[i];
+            }
+            
+            double minVenta = ventas[0];
+            for (int i = 1; i < 6; i++)
+            {
+                if (ventas[i] < minVenta)
+                    minVenta = ventas[i];
+            }
+            
+            int countMax = 0;
+            int countMin = 0;
+            int diaMax = -1;
+            int diaMin = -1;
+            
+            for (int i = 0; i < 6; i++)
+            {
+                if (ventas[i] == maxVenta)
+                {
+                    countMax++;
+                    diaMax = i;
+                }
+                if (ventas[i] == minVenta)
+                {
+                    countMin++;
+                    diaMin = i;
+                }
+            }
+            
+            string resultadoMax;
+            if (countMax > 1)
+                resultadoMax = "EMPATE";
+            else
+                resultadoMax = dias[diaMax];
+            
+            string resultadoMin;
+            if (countMin > 1)
+                resultadoMin = "EMPATE";
+            else
+                resultadoMin = dias[diaMin];
+
+            string domingoSuperaMedia = ventas[5] > media ? "SI" : "NO";
+            
+            Console.WriteLine($"{resultadoMax} {resultadoMin} {domingoSuperaMedia}");
+        }
+    }
+}
